@@ -15,7 +15,7 @@ function App() {
   // ★ BRO ADD — lấy dữ liệu từ Farcaster context
   useEffect(() => {
     async function loadCtx() {
-      const ctx = await sdk.context.getContext()
+      const ctx = await sdk.context.getFrameContext()
 
       if (ctx?.user?.fid) setFid(BigInt(ctx.user.fid))
       if (ctx?.user?.avatar?.url) setAvatarUrl(ctx.user.avatar.url)
@@ -97,7 +97,7 @@ function App() {
   useEffect(() => {
     let id: ReturnType<typeof setInterval>
     if (isConnected) {
-      clearInterval(id! && 0)
+      if (id) clearInterval(id)
     } else if (window.self !== window.top) {
       id = setInterval(() => connect({ connector: connectors[0] }), 1500)
     }
